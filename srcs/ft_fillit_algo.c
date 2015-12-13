@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "fillit.h"
 
 int			place_mino(char *grid, char *t_mino, int j, int i)
@@ -7,7 +8,7 @@ int			place_mino(char *grid, char *t_mino, int j, int i)
 
 	size = side_size(grid);
 	t = 0;
-	if (i >= 0 && i <= 20 && j >= 0 && j <= ((size * size) + size) &&
+	if (i >= 0 && i <= 20 && j >= 0 && j <= ((size * size) + size - 1) &&
 			grid[j] == '.' && t_mino[i] >= 'a' && t_mino != NULL)
 	{
 		t_mino[i] -= 32;
@@ -56,16 +57,16 @@ int			t_algo_r(char **grid, char **t_mino, int i, int size)
 	if (t_mino[i] == NULL)
 		return (1);
 	cpy_grid = ft_strdup(*grid);
-	indexes[0] = -1;
+	indexes[0] = 0;
 	indexes[1] = 0;
-	while ((*grid)[++indexes[0]])
+	while ((*grid)[indexes[0]])
 	{
 		while (!ft_isalpha(t_mino[i][indexes[1]]))
 			indexes[1]++;
 		if (place_mino(*grid, t_mino[i], indexes[0], indexes[1]) != 4)
 		{
 			indexes[1] = 0;
-			resetgrids(*grid, t_mino[i], indexes[0], i);
+			resetgrids(*grid, t_mino[i], indexes[0]++, i);
 			continue ;
 		}
 		if (t_algo_r(grid, t_mino, i + 1, size))
